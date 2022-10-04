@@ -1,6 +1,6 @@
 const input = document.querySelector('.input-event');
 const list = document.querySelector('.list');
-const ellipse = document.querySelectorAll('.fa-ellipsis-vertical');
+const ellipses = document.querySelectorAll('.fa-ellipsis-vertical');
 
 const data = JSON.parse(localStorage.getItem('data')) || [];
 
@@ -24,7 +24,7 @@ class EventObj {
          EventObj.delEvent(i);
        });
      });
-     const tick = document.querySelectorAll('.tick');
+     const ticks = document.querySelectorAll('.tick');
      // Edit added event on UI
      const listData = document.querySelectorAll('.list-input');
      listData.forEach((e, i) => {
@@ -34,16 +34,18 @@ class EventObj {
        });
      });
 
-     for (let i = 0; i < ellipse.length; i += 1) {
-       ellipse[i].addEventListener('click', () => {
+     // Iterate on ellipse to switch display status
+     ellipses.forEach((ellipse, i) => {
+       ellipses[i].addEventListener('click', () => {
          del[i].style.display = 'inline';
-         ellipse[i].style.display = 'none';
+         ellipses[i].style.display = 'none';
        });
-     }
+     });
 
-     tick.forEach((e, i) => {
-       e.addEventListener('change', () => {
-         if (e.checked === true) {
+     // Iterate on checkbox to change state
+     ticks.forEach((tick, i) => {
+       tick.addEventListener('change', () => {
+         if (tick.checked === true) {
            data[i].done = true;
          } else {
            data[i].done = false;
@@ -61,10 +63,11 @@ class EventObj {
      }
    };
 
+   // Delete Task function
    static delEvent = (i) => {
      data.splice(i, 1);
-     data.forEach((e, i) => {
-       e.index = i + 1;
+     data.forEach((task, i) => {
+       task.index = i + 1;
      });
      localStorage.setItem('data', JSON.stringify(data));
      EventObj.createEvent();
